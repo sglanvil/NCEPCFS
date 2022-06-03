@@ -1,17 +1,19 @@
-% interpolate NCEP data onto 1x1deg grid
+% interpolate NCEP data onto 1x1 deg grid (CPC)
 
 clear; clc; close all;
+
+system('module load nco');
 
 lon=0:359; % 360
 lat=-90:90; % 181
 [xNew,yNew]=meshgrid(lon,lat);
 
-datasetName='NCEPCFSR';
+datasetName='NCEPCFSv2';
 dirName=sprintf('/glade/scratch/sglanvil/%s/',datasetName);
-year1=1999;
-year2=2010;
-varName='tas_2m';
-ncepName='TMP_P0_L103_GLL0';
+year1=2011;
+year2=2021;
+varName='pr_sfc';
+ncepName='PRATE_P8_L1_GLL0_avg';
 
 cd(dirName)
 
@@ -28,7 +30,13 @@ for iyear=year1:year2
         varNew(:,:,itime)=interp2(x,y,squeeze(var(:,:,itime))',...
             xNew,yNew,'linear',NaN);
     end
-    time=yyyymmdd(datetime(iyear,1,1,'format','yyyyMMdd'):datetime(iyear,12,31,'format','yyyyMMdd'));
+    imonth=1;
+    iday=1;
+    if iyear==2011
+        imonth=4;
+        iday=2;
+    end
+    time=yyyymmdd(datetime(iyear,imonth,iday,'format','yyyyMMdd'):datetime(iyear,12,31,'format','yyyyMMdd'));
     size(time)
     size(varNew)
     
