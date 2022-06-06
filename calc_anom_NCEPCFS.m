@@ -3,15 +3,16 @@
 clear; clc; close all;
 
 varName='tas_2m'; % 'T_850','tas_2m','pr_sfc'
+ncSave=sprintf('/glade/work/sglanvil/CCR/S2S/data/%s_anom_NCEPCFS_sg_s2s_data.nc',varName);
 
 % -------------- file1: NCEPCFSR --------------
-file1=sprintf('%s_NCEPCFSR.dailyAvg.ALL_interp.nc',varName);
+file1=sprintf('/glade/scratch/sglanvil/NCEPCFSR/%s_NCEPCFSR.dailyAvg.ALL_interp.nc',varName);
 var1=ncread(file1,varName);
 lon=ncread(file1,'lon');
 lat=ncread(file1,'lat');
 time1=datetime(1999,1,1,'format','yyyyMMdd'):datetime(2010,12,31,'format','yyyyMMdd');
 % -------------- file2: NCEPCFSv2 --------------
-file2=sprintf('%s_NCEPCFSv2.dailyAvg.ALL_interp.nc',varName);
+file2=sprintf('/glade/scratch/sglanvil/NCEPCFSv2/%s_NCEPCFSv2.dailyAvg.ALL_interp.nc',varName);
 var2=ncread(file2,varName);
 time2=datetime(2011,4,2,'format','yyyyMMdd'):datetime(2021,12,31,'format','yyyyMMdd');
 % -------------- combine datasets --------------
@@ -40,7 +41,6 @@ end
 
 % -------------- save as netcdf --------------
 time=yyyymmdd(timeObs);
-ncSave=sprintf('%s_anom_NCEPCFS_sg_s2s_data.nc',varName);
 ncid=netcdf.create(ncSave,'NC_WRITE');
 dimidlon=netcdf.defDim(ncid,'lon',length(lon));
 dimidlat=netcdf.defDim(ncid,'lat',length(lat));
@@ -57,4 +57,3 @@ netcdf.putVar(ncid,lat_ID,lat);
 netcdf.putVar(ncid,time_ID,time);
 netcdf.putVar(ncid,var_ID,anomObs);
 netcdf.close(ncid)
-
