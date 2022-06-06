@@ -57,3 +57,4 @@ netcdf.putVar(ncid,lat_ID,lat);
 netcdf.putVar(ncid,time_ID,time);
 netcdf.putVar(ncid,var_ID,anomObs);
 netcdf.close(ncid)
+
