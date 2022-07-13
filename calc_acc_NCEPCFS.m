@@ -4,7 +4,7 @@ clear; clc; close all;
 
 % ---------------------------------------------------------- user specifies
 varName='tas_2m';
-simName='cesm2cam6climoATMv2';
+simName='cesm2cam6v2';
 season='DJF';
 timeAvg='daily'; % --- note: currently only setup for "daily"
 
@@ -28,8 +28,6 @@ for itime=1:size(anom,4)
     inxOBS=find(dateOBS==date(itime));
     anomOBS(:,:,:,itime)=squeeze(anomOBSorig(:,:,inxOBS:inxOBS+45));
 end
-
-%%
 
 % ------------------ find where initializations match user-specified season
 if strcmp(season,'DJF')==1
